@@ -22,7 +22,7 @@ def register():
 
 
 @app.route("/login", methods=["POST"])
-def register():
+def login():
 
     if request.method == "POST":
         # Receive data
