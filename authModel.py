@@ -6,18 +6,20 @@ import psycopg2
 def create(name, passwd):
     conn = None
     try:
-        query = ""
+        query = "insert into users(\"name\",\"password\") values(%s,%s)"
         # Connection to the database
         conn = psycopg2.connect(
-            user="",
-            password="",
-            host="",
-            database="",
-            port=""
+            user="easytool",
+            password="bakeli2023",
+            host="localhost",
+            database="users_db",
+            port="5432"
         )
 
         # Instance the object allows to interact with database (queries)
         cur = conn.cursor()
+        cur.execute(query, (name, passwd))
+        conn.commit()
 
         return True
     except (Exception, psycopg2.DatabaseError) as error:
@@ -32,19 +34,22 @@ def login(name, passwd):
     conn = None
 
     try:
-        query = ""
+        query = "select * from users where \"name\"=%s and \"password\"=%s"
         # Connection to the database
         conn = psycopg2.connect(
-            user="",
-            password="",
-            host="",
-            database="",
-            port=""
+            user="easytool",
+            password="bakeli2023",
+            host="localhost",
+            database="users_db",
+            port="5432"
         )
 
         # Instance the object allows to interact with database (queries)
         cur = conn.cursor()
-        return True
+        cur.execute(query, (name, passwd))
+
+        user = cur.fetchone()
+        return user
     except (Exception, psycopg2.DatabaseError) as error:
         print("ERROR: ", error)
         return False
